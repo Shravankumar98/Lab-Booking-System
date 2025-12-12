@@ -15,7 +15,6 @@ const MyBookings = () => {
           console.log("No Bookings found");
           return;
         }
-        console.log(result);
         
         setMyBookings(result);
       } catch (error) {

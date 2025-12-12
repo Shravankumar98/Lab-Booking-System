@@ -23,7 +23,7 @@ const Card = ({ id, handleOnclick = true, title, seats, booked = 0 }) => {
           <span className="value">{booked}</span>
         </div>
       </div>
-      <div className="card-footer">More →</div>
+      {handleOnclick && <div className="card-footer">More →</div>}
     </div>
   );
 };

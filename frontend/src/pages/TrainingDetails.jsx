@@ -5,7 +5,7 @@ import { fetchTraining, BookTraining, getMyBookings } from "../api";
 const TrainingDetails = () => {
   const { id } = useParams();
   const [training, setTraining] = useState(null);
-  const [bookings, setBookings] = useState();
+  const [bookings, setBookings] = useState([]);
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
@@ -14,16 +14,17 @@ const TrainingDetails = () => {
     const loadData = async () => {
       setLoading(true);
       try {
+        // ⬇️ Promise.all to fetch both in parallel
         const [trainingRes, bookingsRes] = await Promise.all([
           fetchTraining(id),
           getMyBookings(),
         ]);
-        console.log(trainingRes);
 
+        // Training data
         setTraining(trainingRes || null);
-        if (bookingsRes?.length) {
-          setBookings(bookingsRes.map((booking) => booking.id) || []);
-        }
+
+        // Bookings (convert to only IDs)
+        setBookings(bookingsRes?.map((b) => b.id) || []);
       } catch (err) {
         console.error("Error:", err.message);
       } finally {
@@ -37,13 +38,16 @@ const TrainingDetails = () => {
   const handleClick = async (id) => {
     try {
       setLoading(true);
+
       await BookTraining(id);
 
+      // Update booked count
       setTraining((prev) => ({
         ...prev,
         booked: prev.booked + 1,
       }));
 
+      // Add new booking id
       setBookings((prev) => [...prev, id]);
     } catch (error) {
       console.error("Error:", error.message);
@@ -52,8 +56,9 @@ const TrainingDetails = () => {
     }
   };
 
+  // Check if user already booked this training
   const hasBooked = useMemo(
-    () => bookings?.length && bookings.includes(training.id),
+    () => bookings.includes(training?.id),
     [bookings, training]
   );
 
@@ -64,6 +69,7 @@ const TrainingDetails = () => {
     <div className="main">
       <h1>{training.title}</h1>
       <hr />
+
       <div className="sub-header">
         <div className="stats">
           <span>Seats - </span>
