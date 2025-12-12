@@ -1,0 +1,40 @@
+.main {
+  padding: 20px;
+}
+.training-container,
+.myBookings-container {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+  padding: 15px;
+  gap: 20px;
+}
+.lessons-container {
+  display: flex;
+  flex-direction: column;
+}
+.lesson {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 4px;
+  border-bottom: 1px solid gray;
+}
+.lesson h2 {
+  color: rgb(152, 152, 152);
+  font-size: 16px;
+}
+
+.circular-progress-bar {
+  display: flex;
+  width: 100%;
+  background-color: rgb(229, 230, 219);
+  height: 10px;
+  border-radius: 6px;
+  overflow: hidden;
+}
+.sub-header {
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+  margin: 40px 20px;
+}
